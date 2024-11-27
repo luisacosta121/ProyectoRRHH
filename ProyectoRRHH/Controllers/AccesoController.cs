@@ -32,9 +32,9 @@ namespace ProyectoRRHH.Controllers
                     new Claim("Correo", usuario.Correo),
                 };
 
-                foreach(string rol in usuario.Roles)
+                foreach (string rol in usuario.Roles.Split(','))
                 {
-                    claims.Add(new Claim(ClaimTypes.Role, rol));
+                    claims.Add(new Claim(ClaimTypes.Role, rol.Trim())); // Usa Trim() para eliminar posibles espacios extra
                 }
 
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
