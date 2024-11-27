@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
+using ProyectoRRHH.Context;
 
 namespace ProyectoRRHH
 {
@@ -7,6 +9,10 @@ namespace ProyectoRRHH
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddDbContext<EmpresaDatabaseContext>(
+options =>
+options.UseSqlServer(builder.Configuration["ConnectionString:EmpresaDBConnection"]));
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
