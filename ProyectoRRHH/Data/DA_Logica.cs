@@ -27,5 +27,6 @@ namespace ProyectoRRHH.Data
             return _context.Usuarios
                            .FirstOrDefault(u => u.Correo == _correo && u.Clave == _clave);
         }
+
     }
 }
