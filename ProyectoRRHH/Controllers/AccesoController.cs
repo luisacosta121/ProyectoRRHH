@@ -35,6 +35,7 @@ namespace ProyectoRRHH.Controllers
                 {
                     new Claim(ClaimTypes.Name, usuario.Nombre),
                     new Claim("Correo", usuario.Correo),
+                    new Claim("Dni", usuario.Dni),
                 };
 
                 foreach (string rol in usuario.Roles.Split(','))
