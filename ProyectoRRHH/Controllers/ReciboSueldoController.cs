@@ -18,7 +18,7 @@ public class ReciboSueldoController : Controller
     public async Task<IActionResult> Index()
     {
         // Obtener el DNI del usuario logueado
-        var usuarioDni = User.FindFirstValue("Dni"); // Asegúrate de que el Claim sea correcto
+        var usuarioDni = User.FindFirstValue("Dni");
 
         if (User.IsInRole("Empleado"))
         {
@@ -27,11 +27,15 @@ public class ReciboSueldoController : Controller
                                         .Where(r => r.UsuarioDni == usuarioDni)
                                         .Include(r => r.Usuario)
                                         .ToListAsync();
+
+            // Pasar el DNI a la vista
+            ViewBag.UsuarioDni = usuarioDni;
+
             return View(recibos);
         }
         else if (User.IsInRole("Administrador"))
         {
-            // Los administradores pueden ver todos los recibos
+           
             var recibos = await _context.ReciboSueldos.Include(r => r.Usuario).ToListAsync();
             return View(recibos);
         }

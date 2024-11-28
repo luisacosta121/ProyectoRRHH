@@ -13,7 +13,7 @@ namespace ProyectoRRHH.Controllers
     {
         private readonly DA_Logica _da_Logica;
 
-        // Inyección de dependencias
+      
         public AccesoController(DA_Logica da_Logica)
         {
             _da_Logica = da_Logica;
