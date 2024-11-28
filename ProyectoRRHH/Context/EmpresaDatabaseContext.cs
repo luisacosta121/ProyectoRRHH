@@ -17,6 +17,8 @@ namespace ProyectoRRHH.Context
         {
         }
         public DbSet<Usuario> Usuarios { get; set; }
+
+        public DbSet<ReciboSueldo> ReciboSueldos { get; set; }
     }
 
 }
