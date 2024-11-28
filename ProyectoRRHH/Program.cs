@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using ProyectoRRHH.Context;
+using ProyectoRRHH.Data;
 
 namespace ProyectoRRHH
 {
@@ -16,6 +17,8 @@ options.UseSqlServer(builder.Configuration["ConnectionString:EmpresaDBConnection
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddScoped<DA_Logica>();
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
                 option =>

@@ -1,29 +1,31 @@
 ﻿using Microsoft.AspNetCore.Authorization.Infrastructure;
 using ProyectoRRHH.Models;
+using Microsoft.EntityFrameworkCore;
+using ProyectoRRHH.Context;
 
 namespace ProyectoRRHH.Data
-{
+    {
     public class DA_Logica
     {
+        private readonly EmpresaDatabaseContext _context;
 
-      public List<Usuario> ListaUsuario()
+        // Inyección de dependencias del DbContext
+        public DA_Logica(EmpresaDatabaseContext context)
         {
-            return new List<Usuario>
-            {
-                new Usuario{ Nombre = "Administrador", Correo = "administrador@gmail.com", Clave = "123", Roles = "Administrador"  },
-                new Usuario{ Nombre = "Empleado1", Correo = "empleado1@gmail.com", Clave = "123", Roles = "Empleado" },
-                new Usuario{ Nombre = "Empleado2", Correo = "empleado2@gmail.com", Clave = "123", Roles = "Empleado"  },
-                new Usuario{ Nombre = "Empleado3", Correo = "empleado3@gmail.com", Clave = "123", Roles = "Empleado"  }
-
-
-            };
-
+            _context = context;
         }
 
+        // Obtener la lista de usuarios desde la base de datos
+        public List<Usuario> ListaUsuario()
+        {
+            return _context.Usuarios.ToList();  // Obtiene la lista de usuarios desde la tabla Usuarios en la base de datos
+        }
+
+        // Validar el usuario por correo y clave
         public Usuario ValidarUsuario(string _correo, string _clave)
         {
-            return ListaUsuario().Where(item => item.Correo == _correo && item.Clave == _clave).FirstOrDefault();
+            return _context.Usuarios
+                           .FirstOrDefault(u => u.Correo == _correo && u.Clave == _clave);
         }
-
     }
 }

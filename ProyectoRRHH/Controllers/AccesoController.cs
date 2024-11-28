@@ -11,6 +11,14 @@ namespace ProyectoRRHH.Controllers
 {
     public class AccesoController : Controller
     {
+        private readonly DA_Logica _da_Logica;
+
+        // Inyección de dependencias
+        public AccesoController(DA_Logica da_Logica)
+        {
+            _da_Logica = da_Logica;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -19,13 +27,10 @@ namespace ProyectoRRHH.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(Usuario _usuario)
         {
-            DA_Logica _da_Usuario = new DA_Logica();
-
-            var usuario = _da_Usuario.ValidarUsuario(_usuario.Correo, _usuario.Clave);
+            var usuario = _da_Logica.ValidarUsuario(_usuario.Correo, _usuario.Clave);
 
             if (usuario != null)
             {
-
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, usuario.Nombre),
@@ -34,13 +39,12 @@ namespace ProyectoRRHH.Controllers
 
                 foreach (string rol in usuario.Roles.Split(','))
                 {
-                    claims.Add(new Claim(ClaimTypes.Role, rol.Trim())); // Usa Trim() para eliminar posibles espacios extra
+                    claims.Add(new Claim(ClaimTypes.Role, rol.Trim()));
                 }
 
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
-
 
                 return RedirectToAction("Index", "Home");
             }
@@ -52,9 +56,7 @@ namespace ProyectoRRHH.Controllers
 
         public async Task<IActionResult> Salir()
         {
-
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
             return RedirectToAction("Index", "Acceso");
         }
     }
