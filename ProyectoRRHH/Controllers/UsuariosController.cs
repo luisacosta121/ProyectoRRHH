@@ -54,7 +54,7 @@ namespace ProyectoRRHH.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Dni,Nombre,Correo,Clave,Roles")] Usuario usuario)
+        public async Task<IActionResult> Create([Bind("Dni,Nombre,Apellido, FechaNacimiento, FechaIngreso, Telefono, Correo,Clave,Roles")] Usuario usuario)
         {
             if (ModelState.IsValid)
             {
