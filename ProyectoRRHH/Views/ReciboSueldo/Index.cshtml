@@ -8,23 +8,21 @@
 
 <p><strong>DNI del Usuario:</strong> @ViewBag.UsuarioDni</p> <!-- Mostrar el DNI -->
 
-<table class="table">
+<table>
     <thead>
         <tr>
             <th>Fecha de Cobro</th>
-            <th>Sueldo</th>
-            <th>Acciones</th>
+            <th>Sueldo Básico</th>
+            <th>Sueldo Neto</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var recibo in Model)
         {
             <tr>
-                <td>@recibo.FechaCobro.ToString("dd/MM/yyyy")</td>
-                <td>@recibo.sueldo</td>
-                <td>
-                    <a href="@Url.Action("Details", "ReciboSueldo", new { id = recibo.Id })">Ver Detalles</a>
-                </td>
+                <td>@recibo.FechaCobro.ToShortDateString()</td>
+                <td>@recibo.SueldoBruto.ToString("C")</td>
+                <td>@recibo.SueldoNeto.ToString("C")</td>
             </tr>
         }
     </tbody>

@@ -80,6 +80,7 @@ public class ReciboSueldoController : Controller
         if (ModelState.IsValid)
         {
             reciboSueldo.Id = Guid.NewGuid();
+            reciboSueldo.SueldoBruto = reciboSueldo.SueldoBruto * (1 - Constantes.Descuento);
             _context.Add(reciboSueldo);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
