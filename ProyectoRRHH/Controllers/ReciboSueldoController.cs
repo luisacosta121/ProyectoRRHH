@@ -75,12 +75,12 @@ public class ReciboSueldoController : Controller
     // POST: ReciboSueldoes/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,FechaCobro,sueldo,UsuarioDni")] ReciboSueldo reciboSueldo)
+    public async Task<IActionResult> Create([Bind("Id,FechaCobro,SueldoBruto,UsuarioDni")] ReciboSueldo reciboSueldo)
     {
         if (ModelState.IsValid)
         {
             reciboSueldo.Id = Guid.NewGuid();
-            reciboSueldo.SueldoBruto = reciboSueldo.SueldoBruto * (1 - Constantes.Descuento);
+            reciboSueldo.SueldoBruto = reciboSueldo.SueldoBruto;
             _context.Add(reciboSueldo);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -109,7 +109,7 @@ public class ReciboSueldoController : Controller
     // POST: ReciboSueldoes/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Guid id, [Bind("Id,FechaCobro,sueldo,UsuarioDni")] ReciboSueldo reciboSueldo)
+    public async Task<IActionResult> Edit(Guid id, [Bind("Id,FechaCobro,SueldoBruto,UsuarioDni")] ReciboSueldo reciboSueldo)
     {
         if (id != reciboSueldo.Id)
         {
