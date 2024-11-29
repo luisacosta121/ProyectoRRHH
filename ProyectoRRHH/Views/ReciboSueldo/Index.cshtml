@@ -8,11 +8,15 @@
 
 <p><strong>DNI del Usuario:</strong> @ViewBag.UsuarioDni</p> <!-- Mostrar el DNI -->
 
-<table>
+<table class="table">
     <thead>
         <tr>
             <th>Fecha de Cobro</th>
-            <th>Sueldo Básico</th>
+            <th>Sueldo Bruto</th>
+            <th>Descuento Jubilación</th>
+            <th>Descuento Obra Social</th>
+            <th>Descuento Ley 19032</th>
+            <th>Total Descuentos</th>
             <th>Sueldo Neto</th>
         </tr>
     </thead>
@@ -22,6 +26,12 @@
             <tr>
                 <td>@recibo.FechaCobro.ToShortDateString()</td>
                 <td>@recibo.SueldoBruto.ToString("C")</td>
+                <td>@recibo.Jubilacion.ToString("C")</td>
+                <td>@recibo.ObraSocial.ToString("C")</td>
+                <td>@recibo.Ley19032.ToString("C")</td>
+                <td>
+                    @((recibo.Jubilacion + recibo.ObraSocial + recibo.Ley19032).ToString("C"))
+                </td>
                 <td>@recibo.SueldoNeto.ToString("C")</td>
             </tr>
         }
