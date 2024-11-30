@@ -27,15 +27,14 @@
                 <select asp-for="UsuarioDni" class ="form-control" asp-items="ViewBag.UsuarioDni"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Generar" class="btn btn-primary" />
+                <a asp-controller="Home" asp-action="Index" class="btn btn-danger">Volver atrás</a>
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
