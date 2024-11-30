@@ -73,9 +73,9 @@
                 @Html.DisplayFor(modelItem => item.Roles)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Nombre">Editar Empleado</a> |
-                <a asp-action="Details" asp-route-id="@item.Nombre">Detalles de Empleado</a> |
-                <a asp-action="Delete" asp-route-id="@item.Nombre">Eliminar Empleado</a>
+                    <a asp-action="Edit" asp-route-id="@item.Dni" class="btn btn-danger">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.Nombre" class="btn btn-danger">Detalles</a>
+                    <a asp-action="Delete" asp-route-id="@item.Nombre" class="btn btn-danger">Eliminar</a>
             </td>
         </tr>
 }
