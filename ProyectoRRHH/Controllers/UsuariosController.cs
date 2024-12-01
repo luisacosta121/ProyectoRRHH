@@ -87,9 +87,9 @@ namespace ProyectoRRHH.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Nombre,Correo,Clave,Roles")] Usuario usuario)
+        public async Task<IActionResult> Edit(string id, [Bind("Dni,Nombre,Apellido,FechaNacimiento,FechaIngreso,Telefono,Correo,Clave,Roles")] Usuario usuario)
         {
-            if (id != usuario.Nombre)
+            if (id != usuario.Dni)
             {
                 return NotFound();
             }
@@ -103,7 +103,7 @@ namespace ProyectoRRHH.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UsuarioExists(usuario.Nombre))
+                    if (!UsuarioExists(usuario.Dni))
                     {
                         return NotFound();
                     }
