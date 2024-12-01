@@ -5,12 +5,14 @@
 }
 
 <h1>Recibos de Sueldo</h1>
-<a asp-controller="ReciboSueldo" asp-action="Create" class="btn btn-danger">Volver atrás</a>
-<p><strong>DNI del Usuario:</strong> @ViewBag.UsuarioDni</p> <!-- Mostrar el DNI -->
-
+@if (User.IsInRole("Administrador"))
+{
+    <a asp-controller="ReciboSueldo" asp-action="Create" class="btn btn-danger">Volver atrás</a>
+}
 <table class="table">
     <thead>
         <tr>
+            <th>Dni</th>
             <th>Fecha de Cobro</th>
             <th>Sueldo Bruto</th>
             <th>Descuento Jubilación</th>
@@ -24,6 +26,7 @@
         @foreach (var recibo in Model)
         {
             <tr>
+                <td>@recibo.UsuarioDni.ToString()</td>
                 <td>@recibo.FechaCobro.ToShortDateString()</td>
                 <td>@recibo.SueldoBruto.ToString("C")</td>
                 <td>@recibo.Jubilacion.ToString("C")</td>
