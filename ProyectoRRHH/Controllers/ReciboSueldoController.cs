@@ -68,7 +68,14 @@ public class ReciboSueldoController : Controller
     // GET: ReciboSueldoes/Create
     public IActionResult Create()
     {
+        // Lista de DNI para el dropdown
         ViewData["UsuarioDni"] = new SelectList(_context.Usuarios, "Dni", "Dni");
+
+        // Diccionario con la información de los usuarios: DNI como clave y "Nombre Apellido" como valor
+        ViewBag.UsuariosInfo = _context.Usuarios
+            .Select(u => new { u.Dni, NombreCompleto = $"{u.Nombre} {u.Apellido}" })
+            .ToDictionary(u => u.Dni, u => u.NombreCompleto);
+
         return View();
     }
 

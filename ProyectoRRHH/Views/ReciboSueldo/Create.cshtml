@@ -4,28 +4,40 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Genear Recibo de Sueldo</h1>
+<h1>Generar Recibo de Sueldo</h1>
 
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!-- Selección de Usuario (DNI) -->
             <div class="form-group">
                 <label asp-for="UsuarioDni" class="control-label"></label>
-                <select asp-for="UsuarioDni" class="form-control" asp-items="ViewBag.UsuarioDni"></select>
+                <select asp-for="UsuarioDni" class="form-control" asp-items="ViewBag.UsuarioDni" id="usuarioDni"></select>
             </div>
+
+            <!-- Campo para mostrar Nombre y Apellido -->
+            <div class="form-group">
+                <label for="nombreCompleto" class="control-label">Nombre Completo</label>
+                <input id="nombreCompleto" class="form-control" type="text" readonly />
+            </div>
+
+            <!-- Fecha de Cobro -->
             <div class="form-group">
                 <label asp-for="FechaCobro" class="control-label"></label>
                 <input asp-for="FechaCobro" class="form-control" />
                 <span asp-validation-for="FechaCobro" class="text-danger"></span>
             </div>
+
+            <!-- Sueldo Bruto -->
             <div class="form-group">
                 <label asp-for="SueldoBruto" class="control-label"></label>
                 <input asp-for="SueldoBruto" class="form-control" />
                 <span asp-validation-for="SueldoBruto" class="text-danger"></span>
             </div>
-           
+
             <div class="form-group">
                 <input type="submit" value="Generar" class="btn btn-primary" />
                 <a asp-controller="Home" asp-action="Index" class="btn btn-danger">Volver atrás</a>
@@ -35,8 +47,29 @@
     </div>
 </div>
 
-
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <!-- Incluye los scripts de validación -->
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <!-- Lógica para mostrar Nombre Completo -->
+    <script>
+        // Obtener el diccionario desde el ViewBag
+        const usuariosInfo = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.UsuariosInfo));
+
+        // Referencia al dropdown de DNI y al campo de texto de Nombre Completo
+        const usuarioDniDropdown = document.getElementById("usuarioDni");
+        const nombreCompletoInput = document.getElementById("nombreCompleto");
+
+        // Evento para cambiar el nombre completo al seleccionar un DNI
+        usuarioDniDropdown.addEventListener("change", () => {
+            const selectedDni = usuarioDniDropdown.value;
+            if (usuariosInfo[selectedDni]) {
+                nombreCompletoInput.value = usuariosInfo[selectedDni];
+            } else {
+                nombreCompletoInput.value = "";
+            }
+        });
+    </script>
 }
