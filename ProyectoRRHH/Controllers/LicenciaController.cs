@@ -87,7 +87,7 @@ namespace ProyectoRRHH.Controllers
                 var nombreCompleto = User.FindFirstValue("Nombre") + " " + User.FindFirstValue("Apellido");
                 Usuario u = _context.Usuarios.FirstOrDefault(u => u.Dni == usuarioDni);
                 ViewBag.UsuarioDni = usuarioDni;
-                ViewBag.NombreCompleto = u.Nombre + " " + u.Ap;
+                ViewBag.NombreCompleto = u.Nombre + " " + u.Apellido;
             }
 
             if(User.IsInRole("Administrador"))

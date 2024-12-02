@@ -33,17 +33,16 @@
             <td>
                 @if(item.Aprobado == true)
                 {
-                        @Html.DisplayText("APROBADO")
+                        <span>AUTORIZADO</span>
                 }
                 else if(item.Aprobado == false)
                 {
-                        @Html.DisplayText("NO APROBADO")
+                        <span>NO AUTORIZADO</span>
                 }
                 else
                 {
-                        @Html.DisplayText("PENDIENTE")
+                        <span>PENDIENTE</span>
                 }
-                @Html.DisplayFor(modelItem => item.FechaInicio)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FechaInicio)
