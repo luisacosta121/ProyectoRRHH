@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using ProyectoRRHH.Context;
 using ProyectoRRHH.Models;
 using System.Security.Claims;
+using Microsoft.CodeAnalysis.Elfie.Serialization;
 
 public class ReciboSueldoController : Controller
 {
@@ -15,8 +16,11 @@ public class ReciboSueldoController : Controller
     }
 
     // GET: ReciboSueldoes
-    public async Task<IActionResult> Index(string buscar)
+    public async Task<IActionResult> Index(string buscar, string filtro)
     {
+        // Persistir parámetros en ViewData
+        ViewData["Buscar"] = buscar;
+
         // Obtener el DNI del usuario logueado
         var usuarioDni = User.FindFirstValue("Dni");
 
@@ -35,13 +39,35 @@ public class ReciboSueldoController : Controller
         }
         else if (User.IsInRole("Administrador"))
         {
-
+            // Obtener todos los recibos
             var recibos = _context.ReciboSueldos.Include(r => r.Usuario).AsQueryable();
 
             // Aplicar búsqueda si es necesario
             if (!string.IsNullOrEmpty(buscar))
             {
                 recibos = recibos.Where(s => s.UsuarioDni.Contains(buscar));
+            }
+
+            // Establecer el filtro de ordenación (alternar entre "DniAscendente" y "DniDescendente")
+            if (string.IsNullOrEmpty(filtro))
+            {
+                filtro = "DniAscendente"; // Valor por defecto si no se pasa filtro
+            }
+
+            // Alternar entre ascendente y descendente
+            ViewData["FiltroDni"] = filtro == "DniAscendente" ? "DniDescendente" : "DniAscendente";
+
+            // Aplicar orden según el filtro
+            switch (filtro)
+            {
+                case "DniDescendente":
+                    recibos = recibos.OrderByDescending(r => r.UsuarioDni);
+                    break;
+
+                case "DniAscendente":
+                default:
+                    recibos = recibos.OrderBy(r => r.UsuarioDni);
+                    break;
             }
 
             // Convertir a lista y devolver
@@ -53,10 +79,7 @@ public class ReciboSueldoController : Controller
             // Si el usuario no tiene el rol adecuado
             return Unauthorized();
         }
-
-
     }
-
     // GET: ReciboSueldoes/Details/5
     public async Task<IActionResult> Details(Guid? id)
     {

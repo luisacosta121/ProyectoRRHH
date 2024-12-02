@@ -20,7 +20,19 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Dni</th>
+            <th>
+                @if (User.IsInRole("Administrador")) // Solo el Administrador puede ordenar
+                {
+                    <a asp-action="Index" asp-route-filtro="@ViewData["FiltroDni"]">
+                        @Html.DisplayNameFor(model => model.UsuarioDni)
+                    </a>
+                }
+                else
+                {
+                    <span>@Html.DisplayNameFor(model => model.UsuarioDni)</span>
+                    // Empleado no puede ordenar
+                }
+            </th>
             <th>Fecha de Cobro</th>
             <th>Sueldo Bruto</th>
             <th>Descuento Jubilación</th>
