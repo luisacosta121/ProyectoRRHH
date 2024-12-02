@@ -21,10 +21,9 @@
     <thead>
         <tr>
             <th>
-
+                <a asp-action="Index" asp-route-filtro="@ViewData["FiltroDni"]">
                     @Html.DisplayNameFor(model => model.Dni)
-
-                
+                </a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)
@@ -33,7 +32,6 @@
                 <a asp-action="Index" asp-route-filtro="@ViewData["FiltroApellido"]">
                     @Html.DisplayNameFor(model => model.Apellido)
                 </a>
-                
             </th>
             <th>
                 <a asp-action="Index" asp-route-filtro="@ViewData["FiltroFechaNac"]">
@@ -44,7 +42,6 @@
                 <a asp-action="Index" asp-route-filtro="@ViewData["FiltroFechaIng"]">
                     @Html.DisplayNameFor(model => model.FechaIngreso)
                 </a>
-                
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Telefono)
@@ -62,8 +59,9 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
+        @foreach (var item in Model)
+        {
+            <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Dni)
                 </td>
@@ -82,21 +80,21 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Telefono)
                 </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Correo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Clave)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Roles)
-            </td>
-            <td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Correo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Clave)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Roles)
+                </td>
+                <td>
                     <a asp-action="Edit" asp-route-id="@item.Dni" class="btn btn-danger">Editar</a>
                     <a asp-action="Details" asp-route-id="@item.Nombre" class="btn btn-danger">Detalles</a>
                     <a asp-action="Delete" asp-route-id="@item.Nombre" class="btn btn-danger">Borrar</a>
-            </td>
-        </tr>
-}
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

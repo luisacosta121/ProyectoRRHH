@@ -13,6 +13,8 @@ namespace ProyectoRRHH.Models
         public string UsuarioDni { get; set; }
         public Usuario Usuario { get; set; }
 
+        public bool Firmado { get; set; }
+
 
         public double SueldoNeto => SueldoBruto * (1 - Constantes.Descuento);
         public double Jubilacion => SueldoBruto * (Constantes.DescuentoJubilacion);

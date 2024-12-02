@@ -34,7 +34,7 @@ namespace ProyectoRRHH.Controllers
             ViewData["FiltroApellido"] = String.IsNullOrEmpty(filtro) ? "NombreDescendente" : "";
             ViewData["FiltroFechaNac"] = filtro=="FechaNacAscendente" ? "FechaNacDescendente" : "FechaNacAscendente";
             ViewData["FiltroFechaIng"] = filtro == "FechaIngAscendente" ? "FechaIngDescendente" : "FechaIngAscendente";
-
+            ViewData["FiltroDni"] = filtro == "DniAscendente" ? "DniDescendente" : "DniAscendente";
 
             switch (filtro)
             {
@@ -52,6 +52,12 @@ namespace ProyectoRRHH.Controllers
                     break;
                 case "FechaIngAscendente":
                     usuarios = usuarios.OrderBy(usuario => usuario.FechaIngreso);
+                    break;
+                case "DniDescendente":
+                    usuarios = usuarios.OrderByDescending(r => r.Dni);
+                    break;
+                case "DniAscendente":
+                    usuarios = usuarios.OrderBy(r => r.Dni);
                     break;
                 default:
                     usuarios = usuarios.OrderBy(usuario => usuario.Apellido);

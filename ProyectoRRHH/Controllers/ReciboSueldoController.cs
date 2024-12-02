@@ -215,6 +215,40 @@ public class ReciboSueldoController : Controller
         return RedirectToAction(nameof(Index));
     }
 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Firmar(Guid id)
+    {
+        // Obtener el recibo
+        var recibo = await _context.ReciboSueldos.FindAsync(id);
+
+        if (recibo == null)
+        {
+            return NotFound();
+        }
+
+        // Verificar que el recibo pertenece al usuario logueado
+        var usuarioDni = User.FindFirstValue("Dni");
+        if (recibo.UsuarioDni != usuarioDni)
+        {
+            return Unauthorized();
+        }
+
+        // Verificar si ya está firmado
+        if (recibo.Firmado)
+        {
+            return BadRequest("El recibo ya está firmado.");
+        }
+
+        // Marcar el recibo como firmado
+        recibo.Firmado = true;
+
+        _context.Update(recibo);
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction(nameof(Index));
+    }
+
     private bool ReciboSueldoExists(Guid id)
     {
         return _context.ReciboSueldos.Any(e => e.Id == id);
