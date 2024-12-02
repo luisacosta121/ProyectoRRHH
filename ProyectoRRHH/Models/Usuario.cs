@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ProyectoRRHH.Models
 {
@@ -25,6 +27,8 @@ namespace ProyectoRRHH.Models
         public List<ReciboSueldo> ListaRecibos { get; set; }
         public List<Licencia> ListaLicencias { get; set; }
 
+        [NotMapped] // No se agregará en la base de datos
+        public string NombreCompleto => $"{Nombre} {Apellido}";
 
     }
 }

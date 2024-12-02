@@ -103,6 +103,39 @@ namespace ProyectoRRHH.Controllers
             return View();
         }
 
+        public IActionResult SetAprobadoTrue(Guid? id)
+        {
+            var licencia = _context.Licencias.Find(id);
+            if (licencia != null)
+            {
+                licencia.Aprobado = true;
+                _context.SaveChanges();
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult SetAprobadoFalse(Guid? id)
+        {
+            var licencia = _context.Licencias.Find(id);
+            if (licencia != null)
+            {
+                licencia.Aprobado = false;
+                _context.SaveChanges();
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult RevertAprobado(Guid? id)
+        {
+            var licencia = _context.Licencias.Find(id);
+            if (licencia != null)
+            {
+                licencia.Aprobado = null;
+                _context.SaveChanges();
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
         // POST: Licencia/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -127,6 +160,8 @@ namespace ProyectoRRHH.Controllers
             ViewData["UsuarioDni"] = new SelectList(_context.Usuarios, "Dni", "Dni", licencia.UsuarioDni);
             return View(licencia);
         }
+
+
 
         // GET: Licencia/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
