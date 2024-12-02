@@ -21,7 +21,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Dni)
+
+                    @Html.DisplayNameFor(model => model.Dni)
+
+                
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Nombre)
@@ -38,7 +41,10 @@
                 </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FechaIngreso)
+                <a asp-action="Index" asp-route-filtro="@ViewData["FiltroFechaIng"]">
+                    @Html.DisplayNameFor(model => model.FechaIngreso)
+                </a>
+                
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Telefono)
