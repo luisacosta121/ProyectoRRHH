@@ -21,7 +21,7 @@ namespace ProyectoRRHH.Controllers
         }
 
         // GET: Usuarios
-        public async Task<IActionResult> Index(string buscar)
+        public async Task<IActionResult> Index(string buscar, string filtro)
         {
             var usuarios = from usuario in _context.Usuarios select usuario;
 
@@ -29,7 +29,26 @@ namespace ProyectoRRHH.Controllers
             {
                 usuarios = usuarios.Where(s => s.Apellido!.Contains(buscar) ||
                                         s.Dni.ToString().Contains(buscar));
-            } 
+            }
+
+            ViewData["FiltroApellido"] = String.IsNullOrEmpty(filtro) ? "NombreDescendente" : "";
+            ViewData["FiltroFechaNac"] = filtro=="FechaNacAscendente" ? "FechaNacDescendente" : "FechaNacAscendente";
+
+            switch (filtro)
+            {
+                case "NombreDescendente":
+                    usuarios=usuarios.OrderByDescending(usuario => usuario.Apellido);
+                    break;
+                case "FechaNacDescendente":
+                    usuarios = usuarios.OrderByDescending(usuario => usuario.FechaNacimiento);
+                    break;
+                case "FechaNacAscendente":
+                    usuarios = usuarios.OrderBy(usuario => usuario.FechaNacimiento);
+                    break;
+                default:
+                    usuarios = usuarios.OrderBy(usuario => usuario.Apellido);
+                    break;
+            }
 
             return View(await usuarios.ToListAsync());
         }
