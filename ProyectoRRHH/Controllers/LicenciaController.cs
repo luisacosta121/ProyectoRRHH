@@ -110,10 +110,16 @@ namespace ProyectoRRHH.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FechaInicio,CantDias,UsuarioDni,Aprobado")] Licencia licencia)
         {
+            
+            if(User.IsInRole("Administrador"))
+            {
+                // Que sea falso el Aprobado null, ya que si está marcado devuelve true, sino, null por Licencia/Create
+                if (licencia.Aprobado == null)
+                    licencia.Aprobado = false;
+            }
             if (ModelState.IsValid)
             {
                 licencia.Id = Guid.NewGuid();
-                licencia.Aprobado = null;
                 _context.Add(licencia);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

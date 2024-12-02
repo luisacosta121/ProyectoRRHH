@@ -79,9 +79,10 @@
             {
                 <div class="form-group form-check">
                     <label class="form-check-label">
-                        Autorizar: <input class="form-check-input" asp-for="Aprobado"/>
+                        Autorizar: <input type="checkbox" id="Aprobado" name="Aprobado" class="form-check-input" value="true">
                     </label>
                 </div>
+                <span asp-validation-for="Aprobado" class="text-danger"></span>
             }
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
