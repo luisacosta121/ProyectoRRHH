@@ -15,7 +15,7 @@ public class ReciboSueldoController : Controller
     }
 
     // GET: ReciboSueldoes
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string buscar)
     {
         // Obtener el DNI del usuario logueado
         var usuarioDni = User.FindFirstValue("Dni");
@@ -35,15 +35,26 @@ public class ReciboSueldoController : Controller
         }
         else if (User.IsInRole("Administrador"))
         {
-           
-            var recibos = await _context.ReciboSueldos.Include(r => r.Usuario).ToListAsync();
-            return View(recibos);
+
+            var recibos = _context.ReciboSueldos.Include(r => r.Usuario).AsQueryable();
+
+            // Aplicar búsqueda si es necesario
+            if (!string.IsNullOrEmpty(buscar))
+            {
+                recibos = recibos.Where(s => s.UsuarioDni.Contains(buscar));
+            }
+
+            // Convertir a lista y devolver
+            var listaRecibos = await recibos.ToListAsync();
+            return View(listaRecibos);
         }
         else
         {
             // Si el usuario no tiene el rol adecuado
             return Unauthorized();
         }
+
+
     }
 
     // GET: ReciboSueldoes/Details/5
