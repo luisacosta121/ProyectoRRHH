@@ -1,0 +1,67 @@
+﻿@model IEnumerable<ProyectoRRHH.Models.Licencia>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                ESTADO
+            </th>
+            <th>
+                Fecha de inicio
+            </th>
+            <th>
+                Cantidad de días
+            </th>
+            <th>
+                Usuario
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @if(item.Aprobado == true)
+                {
+                        @Html.DisplayText("APROBADO")
+                }
+                else if(item.Aprobado == false)
+                {
+                        @Html.DisplayText("NO APROBADO")
+                }
+                else
+                {
+                        @Html.DisplayText("PENDIENTE")
+                }
+                @Html.DisplayFor(modelItem => item.FechaInicio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaInicio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CantDias)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Usuario.Nombre)
+            </td>
+            <td>
+                <a asp-action="Aprobar" asp-route-id="@item.Id">Aprobar</a>
+                <a asp-action="Rechazar" asp-route-id="@item.Id">Rechazar</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

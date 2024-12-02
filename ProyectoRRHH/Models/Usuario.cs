@@ -23,6 +23,7 @@ namespace ProyectoRRHH.Models
         public string Roles { get; set; }
 
         public List<ReciboSueldo> ListaRecibos { get; set; }
+        public List<Licencia> ListaLicencias { get; set; }
 
 
     }

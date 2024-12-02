@@ -19,7 +19,8 @@
             public DbSet<Usuario> Usuarios { get; set; }
 
             public DbSet<ReciboSueldo> ReciboSueldos { get; set; }
-        }
+            public DbSet<Licencia> Licencias { get; set; }
+    }
 
     }
 

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProyectoRRHH.Context;
 
@@ -11,9 +12,11 @@ using ProyectoRRHH.Context;
 namespace ProyectoRRHH.Migrations
 {
     [DbContext(typeof(EmpresaDatabaseContext))]
-    partial class EmpresaDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20241202002910_Licencia4")]
+    partial class Licencia4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,7 +31,7 @@ namespace ProyectoRRHH.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool?>("Aprobado")
+                    b.Property<bool>("Aprobado")
                         .HasColumnType("bit");
 
                     b.Property<int>("CantDias")

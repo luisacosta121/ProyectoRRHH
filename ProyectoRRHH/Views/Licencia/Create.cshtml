@@ -1,0 +1,119 @@
+﻿@model ProyectoRRHH.Models.Licencia
+
+@{
+}
+
+<h1>Create</h1>
+
+<h4>Licencia</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FechaInicio" class="control-label">Fecha de licencia</label>
+                <input asp-for="FechaInicio" class="form-control" />
+                <span asp-validation-for="FechaInicio" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CantDias" class="control-label">Cantidad de días de licencia</label>
+                <input asp-for="CantDias" class="form-control" />
+                <span asp-validation-for="CantDias" class="text-danger"></span>
+            </div>
+
+            <!-- Selección de Usuario (DNI) -->
+            <div class="form-group">
+                <label asp-for="UsuarioDni" class="control-label"></label>
+                @if (User.IsInRole("Administrador"))
+                {
+                    <select asp-for="UsuarioDni" class="form-control" asp-items="ViewBag.UsuarioDni" id="usuarioDni"></select>
+                }
+                @if (User.IsInRole("Empleado"))
+                {
+                    <input asp-for="UsuarioDni" class="form-control" value="@ViewBag.UsuarioDni" id="usuarioDni" readonly></input>
+                }
+            </div>
+
+            <!-- Campo para mostrar Nombre y Apellido -->
+            <div class="form-group">
+                <label for="nombreCompleto" class="control-label">Nombre Completo</label>
+                @if (User.IsInRole("Administrador"))
+                {
+                    <input id="nombreCompleto" class="form-control" type="text" readonly />
+                }
+                @if (User.IsInRole("Empleado"))
+                {
+                    <input id="nombreCompleto" class="form-control" value="@ViewBag.NombreCompleto" type="text" readonly />
+                }
+            </div>
+
+            <!--
+            <div class="form-group">
+                <label asp-for="UsuarioDni" class="control-label">DNI</label>
+                @if(User.IsInRole("Administrador"))
+                {
+                   
+                    //<select asp-for="UsuarioDni" class="form-control" asp-items="ViewBag.UsuarioDni"></select>
+                }
+                else if(User.IsInRole("Empleado"))
+                {
+                    //<input asp-for="UsuarioDni" value="@ViewBag.UsuarioDni" class="form-control" readonly />
+                }
+                <span asp-validation-for="UsuarioDni" class="text-danger"></span>
+            </div>
+            -->
+            <!--<div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Aprobado" /> @Html.DisplayFor(model => model.Aprobado)
+                </label>
+            </div>-->
+            <!--
+            <div class="form-group">
+                <label asp-for="Aprobado" class="control-label"></label>
+                <input asp-for="Aprobado" class="form-control" />
+                <span asp-validation-for="Aprobado" class="text-danger"></span>
+            </div>
+            -->
+            @if (User.IsInRole("Administrador"))
+            {
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="Aprobado" /> @Html.DisplayNameFor(model => model.Aprobado)
+                    </label>
+                </div>
+            }
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<!-- Lógica para mostrar Nombre Completo -->
+<script>
+    // Obtener el diccionario desde el ViewBag
+    const usuariosInfo = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(ViewBag.UsuariosInfo));
+
+    // Referencia al dropdown de DNI y al campo de texto de Nombre Completo
+    const usuarioDniDropdown = document.getElementById("usuarioDni");
+    const nombreCompletoInput = document.getElementById("nombreCompleto");
+
+    // Evento para cambiar el nombre completo al seleccionar un DNI
+    usuarioDniDropdown.addEventListener("change", () => {
+        const selectedDni = usuarioDniDropdown.value;
+        if (usuariosInfo[selectedDni]) {
+            nombreCompletoInput.value = usuariosInfo[selectedDni];
+        } else {
+            nombreCompletoInput.value = "";
+        }
+    });
+</script>
