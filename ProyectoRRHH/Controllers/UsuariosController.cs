@@ -21,9 +21,17 @@ namespace ProyectoRRHH.Controllers
         }
 
         // GET: Usuarios
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string buscar)
         {
-            return View(await _context.Usuarios.ToListAsync());
+            var usuarios = from usuario in _context.Usuarios select usuario;
+
+            if(!String.IsNullOrEmpty(buscar)) 
+            {
+                usuarios = usuarios.Where(s => s.Apellido!.Contains(buscar) ||
+                                        s.Dni.ToString().Contains(buscar));
+            } 
+
+            return View(await usuarios.ToListAsync());
         }
 
         // GET: Usuarios/Details/5

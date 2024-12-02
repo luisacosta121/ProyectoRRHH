@@ -12,8 +12,8 @@ using ProyectoRRHH.Context;
 namespace ProyectoRRHH.Migrations
 {
     [DbContext(typeof(EmpresaDatabaseContext))]
-    [Migration("20241201222724_Licencia3")]
-    partial class Licencia3
+    [Migration("20241202180032_rhrh")]
+    partial class rhrh
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,6 +30,9 @@ namespace ProyectoRRHH.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool?>("Aprobado")
+                        .HasColumnType("bit");
 
                     b.Property<int>("CantDias")
                         .HasColumnType("int");
