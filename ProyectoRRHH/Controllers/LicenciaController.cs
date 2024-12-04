@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.Elfie.Serialization;
 using Microsoft.EntityFrameworkCore;
 using ProyectoRRHH.Context;
 using ProyectoRRHH.Models;
@@ -21,7 +22,7 @@ namespace ProyectoRRHH.Controllers
         }
 
         // GET: Licencia
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string buscar, string filtro)
         {
             // Obtener el DNI del usuario logueado
             var usuarioDni = User.FindFirstValue("Dni");
@@ -41,18 +42,41 @@ namespace ProyectoRRHH.Controllers
             else if (User.IsInRole("Administrador"))
             {
 
-                var licencias = await _context.Licencias.Include(l => l.Usuario).ToListAsync();
-                return View(licencias);
+                //var licencias = await _context.Licencias.Include(l => l.Usuario).ToListAsync();
+                var licencias = from licencia in _context.Licencias select licencia;
+                ViewData["FiltroApellido"] = String.IsNullOrEmpty(filtro) ? "NombreDescendente" : "";
+                ViewData["FiltroFechaIni"] = filtro == "FechaIniAscendente" ? "FechaIniDescendente" : "FechaIniAscendente";
+                ViewData["FiltroDni"] = filtro == "DniAscendente" ? "DniDescendente" : "DniAscendente";
+
+                switch (filtro)
+                {
+                    case "ApellidoDescendente":
+                        licencias = licencias.OrderByDescending(licencia => licencia.Usuario.Apellido);
+                        break;
+                    case "FechaIniDescendente":
+                        licencias = licencias.OrderByDescending(licencia => licencia.FechaInicio);
+                        break;
+                    case "FechaIniAscendente":
+                        licencias = licencias.OrderBy(licencia => licencia.FechaInicio);
+                        break;
+                    case "DniDescendente":
+                        licencias = licencias.OrderByDescending(l => l.Usuario.Dni);
+                        break;
+                    case "DniAscendente":
+                        licencias = licencias.OrderBy(l => l.Usuario.Dni);
+                        break;
+                    default:
+                        licencias = licencias.OrderBy(licencia => licencia.Usuario.Apellido);
+                        break;
+                }
+
+                return View(await licencias.ToListAsync());
             }
             else
             {
                 // Si el usuario no tiene el rol adecuado
                 return Unauthorized();
             }
-            /*
-            var empresaDatabaseContext = _context.Licencias.Include(l => l.Usuario);
-            return View(await empresaDatabaseContext.ToListAsync());
-            */
         }
 
         // GET: Licencia/Details/5
