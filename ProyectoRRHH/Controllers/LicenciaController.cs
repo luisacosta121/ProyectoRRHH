@@ -24,6 +24,8 @@ namespace ProyectoRRHH.Controllers
         // GET: Licencia
         public async Task<IActionResult> Index(string buscar, string filtro)
         {
+            // Persistir parámetros en ViewData
+            ViewData["Buscar"] = buscar;
             // Obtener el DNI del usuario logueado
             var usuarioDni = User.FindFirstValue("Dni");
             if (User.IsInRole("Empleado"))
@@ -41,17 +43,26 @@ namespace ProyectoRRHH.Controllers
             }
             else if (User.IsInRole("Administrador"))
             {
+                var licencias = _context.Licencias.Include(l => l.Usuario).AsQueryable();
 
-                //var licencias = await _context.Licencias.Include(l => l.Usuario).ToListAsync();
-                var licencias = from licencia in _context.Licencias select licencia;
-                ViewData["FiltroApellido"] = String.IsNullOrEmpty(filtro) ? "NombreDescendente" : "";
+                if (!string.IsNullOrEmpty(buscar))
+                {
+                    licencias = licencias.Where(s => new[] { s.Usuario.Nombre, s.Usuario.Apellido }.Any(a => a.Contains(buscar)));
+                }
+
+                if (string.IsNullOrEmpty(filtro))
+                {
+                    filtro = "FechaIniDescendente"; // Valor por defecto si no se pasa filtro
+                }
+
+                ViewData["FiltroNombre"] = filtro == "NombreAscendente" ? "NombreDescendente" : "NombreAscendente";
+                ViewData["FiltroEstado"] = filtro == "EstadoAscendente" ? "EstadoDescendente" : "EstadoAscendente";
                 ViewData["FiltroFechaIni"] = filtro == "FechaIniAscendente" ? "FechaIniDescendente" : "FechaIniAscendente";
-                ViewData["FiltroDni"] = filtro == "DniAscendente" ? "DniDescendente" : "DniAscendente";
 
                 switch (filtro)
                 {
-                    case "ApellidoDescendente":
-                        licencias = licencias.OrderByDescending(licencia => licencia.Usuario.Apellido);
+                    case "NombreDescendente":
+                        licencias = licencias.OrderByDescending(licencia => licencia.Usuario.Nombre);
                         break;
                     case "FechaIniDescendente":
                         licencias = licencias.OrderByDescending(licencia => licencia.FechaInicio);
@@ -59,18 +70,20 @@ namespace ProyectoRRHH.Controllers
                     case "FechaIniAscendente":
                         licencias = licencias.OrderBy(licencia => licencia.FechaInicio);
                         break;
-                    case "DniDescendente":
-                        licencias = licencias.OrderByDescending(l => l.Usuario.Dni);
+                    case "EstadoDescendente":
+                        licencias = licencias.OrderByDescending(licencia => licencia.Aprobado);
                         break;
-                    case "DniAscendente":
-                        licencias = licencias.OrderBy(l => l.Usuario.Dni);
+                    case "EstadoAscendente":
+                        licencias = licencias.OrderBy(licencia => licencia.Aprobado);
                         break;
                     default:
-                        licencias = licencias.OrderBy(licencia => licencia.Usuario.Apellido);
+                        licencias = licencias.OrderBy(licencia => licencia.Usuario.Nombre);
                         break;
                 }
 
-                return View(await licencias.ToListAsync());
+                // Convertir a lista y devolver
+                var listaLicencias = await licencias.ToListAsync();
+                return View(licencias);
             }
             else
             {

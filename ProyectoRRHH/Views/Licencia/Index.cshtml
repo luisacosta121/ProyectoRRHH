@@ -25,19 +25,26 @@
     <thead>
         <tr>
             <th>
-                ESTADO
+                <a asp-action="Index" asp-route-filtro="@ViewData["FiltroEstado"]">
+                    ESTADO
+                </a>
             </th>
             <th>
                 <a asp-action="Index" asp-route-filtro="@ViewData["FiltroFechaIni"]">
-                    @Html.DisplayNameFor(model => model.FechaInicio)
+                    Fecha de inicio
                 </a>
             </th>
             <th>
                 Cantidad de días
             </th>
-            <th>
-                Nombre completo
-            </th>
+            @if(User.IsInRole("Administrador"))
+            {
+                <th>
+                    <a asp-action="Index" asp-route-filtro="@ViewData["FiltroNombre"]">
+                        Nombre completo
+                    </a>
+                </th>
+            }
             <th>
                 
             </th>
@@ -70,9 +77,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.CantDias)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => (item.Usuario.NombreCompleto))
-            </td>
+            @if(User.IsInRole("Administrador"))
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => (item.Usuario.NombreCompleto))
+                </td>
+            }
             <td>
                 @if(User.IsInRole("Administrador"))
                 {
