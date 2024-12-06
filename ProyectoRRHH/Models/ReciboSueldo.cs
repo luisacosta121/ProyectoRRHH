@@ -6,12 +6,22 @@ namespace ProyectoRRHH.Models
     {
 
         public Guid Id { get; set; }
+
+
         [DataType(DataType.Date)]
+        [Required(ErrorMessage = "La fecha de cobro es obligatoria.")]
         public DateTime FechaCobro { get; set; }
+
+
+        [Range(0, double.MaxValue, ErrorMessage = "El sueldo bruto no puede ser negativo.")]
         public double SueldoBruto { get; set; }
 
+
         public string UsuarioDni { get; set; }
+
+
         public Usuario Usuario { get; set; }
+
 
         public bool Firmado { get; set; }
 

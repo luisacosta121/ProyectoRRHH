@@ -26,13 +26,14 @@
                 </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
                 <a asp-action="Index" asp-route-filtro="@ViewData["FiltroApellido"]">
                     @Html.DisplayNameFor(model => model.Apellido)
                 </a>
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            
             <th>
                 <a asp-action="Index" asp-route-filtro="@ViewData["FiltroFechaNac"]">
                     @Html.DisplayNameFor(model => model.FechaNacimiento)
@@ -66,11 +67,12 @@
                     @Html.DisplayFor(modelItem => item.Dni)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Nombre)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.Apellido)
                 </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nombre)
+                </td>
+                
                 <td>
                     @Html.DisplayFor(modelItem => item.FechaNacimiento)
                 </td>

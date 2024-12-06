@@ -25,21 +25,21 @@ namespace ProyectoRRHH.Controllers
         {
             var usuarios = from usuario in _context.Usuarios select usuario;
 
-            if(!String.IsNullOrEmpty(buscar)) 
+            if (!String.IsNullOrEmpty(buscar))
             {
                 usuarios = usuarios.Where(s => s.Apellido!.Contains(buscar) ||
                                         s.Dni.ToString().Contains(buscar));
             }
 
             ViewData["FiltroApellido"] = String.IsNullOrEmpty(filtro) ? "NombreDescendente" : "";
-            ViewData["FiltroFechaNac"] = filtro=="FechaNacAscendente" ? "FechaNacDescendente" : "FechaNacAscendente";
+            ViewData["FiltroFechaNac"] = filtro == "FechaNacAscendente" ? "FechaNacDescendente" : "FechaNacAscendente";
             ViewData["FiltroFechaIng"] = filtro == "FechaIngAscendente" ? "FechaIngDescendente" : "FechaIngAscendente";
             ViewData["FiltroDni"] = filtro == "DniAscendente" ? "DniDescendente" : "DniAscendente";
 
             switch (filtro)
             {
                 case "NombreDescendente":
-                    usuarios=usuarios.OrderByDescending(usuario => usuario.Apellido);
+                    usuarios = usuarios.OrderByDescending(usuario => usuario.Apellido);
                     break;
                 case "FechaNacDescendente":
                     usuarios = usuarios.OrderByDescending(usuario => usuario.FechaNacimiento);
