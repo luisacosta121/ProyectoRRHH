@@ -2,8 +2,59 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <div class="alert alert-success">
-        <h2 class="display-4">Pagina de Inicio</h2>
+<div class="container mt-5">
+    <div class="row justify-content-center mb-4">
+        <div class="col-md-8 text-center">
+            <div class="alert alert-success">
+                <h2 class="display-4">Bienvenido a ProyectoRRHH</h2>
+                <p class="lead">La plataforma ideal para la gestión de empleados, recibos de sueldo y licencias.</p>
+            </div>
+        </div>
     </div>
+
+    <div class="row">
+        @if (User.IsInRole("Administrador"))
+        {
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h4 class="card-title">Generar Recibos de Sueldo</h4>
+                    <p class="card-text">Genera recibos de sueldo para todos los empleados de manera rápida y sencilla.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h4 class="card-title">Gestionar Licencias</h4>
+                    <p class="card-text">Consulta, aprueba y gestiona las licencias de los empleados de la empresa.</p>
+                </div>
+            </div>
+        </div>
+
+        
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body">
+                        <h4 class="card-title">Gestionar Empleados</h4>
+                        <p class="card-text">Añade, edita y elimina empleados de la plataforma. Gestiona todos los aspectos relacionados con los recursos humanos.</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    @if (User.IsInRole("Empleado"))
+    {
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <h4>Hola, <strong>@User.Identity.Name</strong>!</h4>
+                    <p>En esta plataforma puedes consultar tus recibos de sueldo y gestionar tus licencias.</p>
+                </div>
+            </div>
+        </div>
+    }
 </div>
+

@@ -3,9 +3,8 @@
 @{
 }
 
-<h1>Create</h1>
+<h1>Licencia</h1>
 
-<h4>Licencia</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -24,14 +23,14 @@
 
             <!-- Selección de Usuario (DNI) -->
             <div class="form-group">
-                <label asp-for="UsuarioDni" class="control-label"></label>
+                <label asp-for="UsuarioDni" class="control-label">DNI Usuario</label>
                 @if (User.IsInRole("Administrador"))
                 {
                     <select asp-for="UsuarioDni" class="form-control" asp-items="ViewBag.UsuarioDni" id="usuarioDni"></select>
                 }
                 @if (User.IsInRole("Empleado"))
                 {
-                    <input asp-for="UsuarioDni" class="form-control" value="@ViewBag.UsuarioDni" id="usuarioDni" readonly></input>
+                    <input asp-for="UsuarioDni" class="form-control" value="@ViewBag.UsuarioDni" id="usuarioDni" readonly/>
                 }
             </div>
 
@@ -57,15 +56,15 @@
                 </div>
                 <span asp-validation-for="Aprobado" class="text-danger"></span>
             }
+
             <div class="form-group mt-3">
                 <input type="submit" value="Crear" class="btn btn-success" />
+                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-danger">Volver atrás</a>
             </div>
         </form>
     </div>
-</div>
 
-<div>
-    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-danger mt-3">Volver atrás</a>
+    
 </div>
 
 @section Scripts {

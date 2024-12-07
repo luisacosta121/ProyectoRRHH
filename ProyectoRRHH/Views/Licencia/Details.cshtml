@@ -4,33 +4,24 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Licencia</h1>
 
 <div>
-    <h4>Licencia</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaInicio)
-        </dt>
+        <dt class = "col-sm-2">Fecha inicio</dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.FechaInicio)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CantDias)
-        </dt>
+        <dt class = "col-sm-2">Cantidad de días</dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.CantDias)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Usuario)
-        </dt>
+        <dt class = "col-sm-2">DNI Usuario</dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Usuario.Dni)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Aprobado)
-        </dt>
+        <dt class = "col-sm-2">Estado Aprobado</dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Aprobado)
         </dd>
