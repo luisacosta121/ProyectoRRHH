@@ -1,4 +1,4 @@
-ï»¿using System;
+using System;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -100,11 +100,33 @@ namespace ProyectoRRHH.Controllers
         {
             if (ModelState.IsValid)
             {
+                if(!IsAgeValid(usuario))
+                {
+                    ViewData["ErrorFechaEdad"] = "El empleado debe tener al menos 18 años.";
+                    return View(usuario);
+                }
                 _context.Add(usuario);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(usuario);
+        }
+
+        private Boolean IsAgeValid(Usuario usuario)
+        {
+            Boolean esMayor = true;
+            var fechaNacimiento = usuario.FechaNacimiento;
+            var fechaIngreso = usuario.FechaIngreso;
+            var edad = fechaIngreso.Year - fechaNacimiento.Year;
+            if(fechaIngreso.Month < fechaNacimiento.Month || (fechaIngreso.Month == fechaNacimiento.Month && fechaIngreso.Day < fechaNacimiento.Day))
+            {
+                edad--;
+            }
+            if(edad < 18)
+            {
+                esMayor = false;
+            }
+            return esMayor;
         }
 
         // GET: Usuarios/Edit/5

@@ -29,7 +29,12 @@
             <div class="form-group">
                 <label asp-for="FechaNacimiento" class="control-label">Fecha de Nacimiento</label>
                 <input asp-for="FechaNacimiento" class="form-control" />
-                <span asp-validation-for="FechaNacimiento" class="text-danger"></span>
+                <span asp-validation-for="FechaNacimiento" class="text-danger">
+                    @if (ViewData["ErrorFechaEdad"] != null)
+                    {
+                        @Html.Raw(@ViewData["ErrorFechaEdad"])
+                    }
+                </span>
             </div>
             <div class="form-group">
                 <label asp-for="FechaIngreso" class="control-label">Fecha de Ingreso</label>
@@ -59,10 +64,10 @@
                 </select>
                 <span asp-validation-for="Roles" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Guardar" class="btn btn-primary" />
-                <a asp-controller="Home" asp-action="Index" class="btn btn-danger">Volver atrás</a>
-                <a asp-action="Index" class="btn btn-danger">Ver Listado</a>
+            <div class="form-group mt-3">
+                <input type="submit" value="Guardar" class="btn btn-success" />
+                <a asp-action="Index" class="btn btn-outline-success">Ver Listado</a>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-outline-danger">Volver atrás</a>
             </div>
         </form>
     </div>

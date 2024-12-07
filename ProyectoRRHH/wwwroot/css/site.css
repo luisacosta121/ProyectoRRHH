@@ -18,5 +18,33 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+}
+
+.logo-nb
+{
+    width: 20px;
+}
+
+header nav li.nav-item a {
+    padding: 15px 5px !important;
+}
+
+header nav li.nav-item:first-child {
+    padding-left: 30px;
+}
+
+header nav li.nav-item:hover a {
+    color: #0d6efd !important;
+}
+
+
+header nav li.nav-item:not(:last-child) {
+    border-right: 1px gray solid;
+    padding-right: 15px;
+}
+
+header nav ul
+{
+    gap: 10px;
 }

@@ -6,22 +6,21 @@
 
 <h1>Lista de licencias</h1>
 
-<p>
-    <a class="btn btn-secondary" asp-action="Create">Crear nueva solicitud de licencia</a>
-</p>
-
 @if (User.IsInRole("Administrador"))
 
 {
     <form asp-action="Index" method="get">
         <div class="form-group">
-            <input type="text" name="buscar" class="form-control" placeholder="Buscar por Apellido" value="@ViewData["buscar"]" />
+            <input type="text" name="buscar" class="form-control" placeholder="Buscar por nombre o apellido" value="@ViewData["buscar"]" />
         </div>
-        <button type="submit" class="btn btn-primary">Buscar</button>
+        <div class="d-flex mt-3 gap-5">
+            <button type="submit" class="btn btn-outline-primary w-50">Buscar</button>
+            <a class="btn btn-outline-success w-50" asp-action="Create">Crear nueva solicitud de licencia</a>
+        </div>
     </form>
 }
 
-<table class="table">
+<table class="table mt-3 table-striped table-hover w-100">
     <thead>
         <tr>
             <th>
@@ -46,7 +45,10 @@
                 </th>
             }
             <th>
-                
+                @if(User.IsInRole("Administrador"))
+                {
+                    @Html.Raw("Acciones")
+                }
             </th>
             <th>
                 
@@ -89,15 +91,15 @@
                     @if(item.Aprobado == null)
                     {
                         <a asp-action="SetAprobadoTrue" asp-route-id="@item.Id" class="btn btn-success">Aprobar</a>
-                        <a asp-action="SetAprobadoFalse" asp-route-id="@item.Id" class="btn btn-secondary">Rechazar</a>
+                        <a asp-action="SetAprobadoFalse" asp-route-id="@item.Id" class="btn btn-danger">Rechazar</a>
                     }
                     else
                     {
-                        <a asp-action="RevertAprobado" asp-route-id="@item.Id" class="btn btn-info">Revertir</a>
+                        <a asp-action="RevertAprobado" asp-route-id="@item.Id" class="btn btn-secondary">Revertir</a>
                     }
                 }
             </td>
-            <td>
+                <td class="align-items-center">
                 @if(User.IsInRole("Administrador"))
                 {
                     <a asp-action="Edit" asp-route-id="@item.Id">Editar</a>
@@ -111,3 +113,5 @@
 }
     </tbody>
 </table>
+
+<a asp-controller="ReciboSueldo" asp-action="Create" class="btn btn-outline-danger mt-3">Volver atrás</a>

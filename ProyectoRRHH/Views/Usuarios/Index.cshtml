@@ -6,18 +6,14 @@
 
 <h1>Listado de Usuarios</h1>
 
-<p>
-    <a asp-action="Create" class="btn btn-danger">Volver Atrás</a>
-</p>
-
 <form asp-action="Index" method="get">
     <div class="form-group">
         <input type="text" name="buscar" class="form-control" placeholder="Buscar por apellido o DNI" value="@ViewData["buscar"]" />
     </div>
-    <button type="submit" class="btn btn-primary">Buscar</button>
+    <button type="submit" class="btn btn-primary w-100 mt-3 mb-5">Buscar</button>
 </form>
 
-<table class="table">
+<table class="table table-striped table-hover w-100">
     <thead>
         <tr>
             <th>
@@ -36,21 +32,21 @@
             
             <th>
                 <a asp-action="Index" asp-route-filtro="@ViewData["FiltroFechaNac"]">
-                    @Html.DisplayNameFor(model => model.FechaNacimiento)
+                    Fecha de nacimiento
                 </a>
             </th>
             <th>
                 <a asp-action="Index" asp-route-filtro="@ViewData["FiltroFechaIng"]">
-                    @Html.DisplayNameFor(model => model.FechaIngreso)
+                    Fecha de ingreso
                 </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Telefono)
+                Teléfono
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Correo)
             </th>
-            <th>
+            <th hidden>
                 @Html.DisplayNameFor(model => model.Clave)
             </th>
             <th>
@@ -85,18 +81,22 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Correo)
                 </td>
-                <td>
+                <td hidden>
                     @Html.DisplayFor(modelItem => item.Clave)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Roles)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Dni" class="btn btn-danger">Editar</a>
-                    <a asp-action="Details" asp-route-id="@item.Nombre" class="btn btn-danger">Detalles</a>
+                    <a asp-action="Edit" asp-route-id="@item.Dni" class="btn btn-success">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.Nombre" class="btn btn-secondary">Detalles</a>
                     <a asp-action="Delete" asp-route-id="@item.Nombre" class="btn btn-danger">Borrar</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<p>
+    <a asp-action="Create" class="btn btn-secondary">Volver Atrás</a>
+</p>

@@ -13,13 +13,12 @@
         <div class="form-group">
             <input type="text" name="buscar" class="form-control" placeholder="Buscar por DNI" value="@ViewData["buscar"]" />
         </div>
-        <button type="submit" class="btn btn-primary">Buscar</button>
+        <button type="submit" class="btn btn-primary w-100 mt-3">Buscar</button>
     </form>
 
-    <a asp-controller="ReciboSueldo" asp-action="Create" class="btn btn-danger">Volver atrás</a>
 }
 
-<table class="table">
+<table class="table table-striped table-hover w-100">
     <thead>
         <tr>
             <th>
@@ -85,3 +84,5 @@
         }
     </tbody>
 </table>
+
+<a asp-controller="ReciboSueldo" asp-action="Create" class="btn btn-outline-danger mt-3">Volver atrás</a>
