@@ -48,3 +48,13 @@ header nav ul
 {
     gap: 10px;
 }
+
+@media print {
+    * {
+        display: hidden !important
+    }
+
+        *.printable {
+            display: initial !important
+        }
+}
