@@ -72,4 +72,28 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Esto es para validar que la fecha de ingreso no sea anterior a la fecha de nacimiento
+        document.addEventListener('DOMContentLoaded', function () {
+            
+            var fechaNacimiento = document.getElementById("FechaNacimiento");
+            var fechaIngreso = document.getElementById("FechaIngreso");
+ 
+            if (fechaNacimiento && fechaIngreso) {   
+                fechaIngreso.addEventListener('change', function () {
+                    var nacimiento = new Date(fechaNacimiento.value);
+                    var ingreso = new Date(fechaIngreso.value);  
+                    if (ingreso < nacimiento) {
+                        alert('La fecha de ingreso no puede ser anterior a la fecha de nacimiento.');
+                        fechaIngreso.value = '';
+                    }
+                });
+            }
+        });
+    </script>
 }
