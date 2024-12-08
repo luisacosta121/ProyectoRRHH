@@ -3,96 +3,162 @@
 @{
     ViewData["Title"] = "Index";
 }
+<div class="w-100 hide-print">
 
-<h1>Recibos de Sueldo</h1>
+    <h1>Recibos de Sueldo</h1>
 
-@if (User.IsInRole("Administrador"))
+    @if (User.IsInRole("Administrador"))
 
-{
-    <form asp-action="Index" method="get">
-        <div class="form-group">
-            <input type="text" name="buscar" class="form-control" placeholder="Buscar por DNI" value="@ViewData["buscar"]" />
-        </div>
-        <button type="submit" class="btn btn-primary w-100 mt-3">Buscar</button>
-    </form>
+    {
+        <form asp-action="Index" method="get">
+            <div class="form-group">
+                <input type="text" name="buscar" class="form-control" placeholder="Buscar por DNI" value="@ViewData["buscar"]" />
+            </div>
+            <button type="submit" class="btn btn-primary w-100 mt-3">Buscar</button>
+        </form>
 
-}
+    }
 
-<table class="table table-striped table-hover w-100">
-    <thead>
-        <tr>
-            <th>
-                @if (User.IsInRole("Administrador")) // Solo el Administrador puede ordenar
-
-                {
-                    <a asp-action="Index" asp-route-filtro="@ViewData["FiltroDni"]">
-                        @Html.DisplayNameFor(model => model.UsuarioDni)
-                    </a>
-                }
-
-                else
-
-                {
-                    <span>@Html.DisplayNameFor(model => model.UsuarioDni)</span>
-                    // Empleado no puede ordenar
-
-                }
-            </th>
-            <th>Fecha de Cobro</th>
-            <th>Sueldo Bruto</th>
-            <th>Descuento Jubilación</th>
-            <th>Descuento Obra Social</th>
-            <th>Descuento Ley 19032</th>
-            <th>Total Descuentos</th>
-            <th>Sueldo Neto</th>
-            @if (User.IsInRole("Empleado"))
-            {
-                <th>Firma</th>
-            }
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var recibo in Model)
-
-        {
+    <table class="table table-striped table-hover w-100">
+        <thead>
             <tr>
-                <td>@recibo.UsuarioDni.ToString()</td>
-                <td>@recibo.FechaCobro.ToShortDateString()</td>
-                <td>@recibo.SueldoBruto.ToString("C")</td>
-                <td>@recibo.Jubilacion.ToString("C")</td>
-                <td>@recibo.ObraSocial.ToString("C")</td>
-                <td>@recibo.Ley19032.ToString("C")</td>
-                <td>
-                    @((recibo.Jubilacion + recibo.ObraSocial + recibo.Ley19032).ToString("C"))
-                </td>
-                <td>@recibo.SueldoNeto.ToString("C")</td>
-                @if (User.IsInRole("Empleado") && !recibo.Firmado)
+                <th>
+                    @if (User.IsInRole("Administrador")) // Solo el Administrador puede ordenar
 
+                    {
+                        <a asp-action="Index" asp-route-filtro="@ViewData["FiltroDni"]">
+                            @Html.DisplayNameFor(model => model.UsuarioDni)
+                        </a>
+                    }
+
+                    else
+
+                    {
+                        <span>@Html.DisplayNameFor(model => model.UsuarioDni)</span>
+                        // Empleado no puede ordenar
+
+                    }
+                </th>
+                <th>Fecha de Cobro</th>
+                <th>Sueldo Bruto</th>
+                <th>Descuento Jubilación</th>
+                <th>Descuento Obra Social</th>
+                <th>Descuento Ley 19032</th>
+                <th>Total Descuentos</th>
+                <th>Sueldo Neto</th>
+                @if (User.IsInRole("Empleado"))
                 {
-                    <td>
-                        <form asp-action="Firmar" method="post">
-                            <input type="hidden" name="id" value="@recibo.Id" />
-                            <button type="submit" class="btn btn-primary">Firmar Recibo</button>
-                        </form>
-                    </td>
-                }
-                else if (recibo.Firmado)
-                {
-                <td>Firmado</td>
+                    <th>Firma</th>
                 }
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var recibo in Model)
+
+            {
+                <tr>
+                    <td>@recibo.UsuarioDni.ToString()</td>
+                    <td>@recibo.FechaCobro.ToShortDateString()</td>
+                    <td>@recibo.SueldoBruto.ToString("C")</td>
+                    <td>@recibo.Jubilacion.ToString("C")</td>
+                    <td>@recibo.ObraSocial.ToString("C")</td>
+                    <td>@recibo.Ley19032.ToString("C")</td>
+                    <td>
+                        @((recibo.Jubilacion + recibo.ObraSocial + recibo.Ley19032).ToString("C"))
+                    </td>
+                    <td>@recibo.SueldoNeto.ToString("C")</td>
+                    <td>
+                        @if (User.IsInRole("Empleado") && !recibo.Firmado)
+
+                        {
+                            <form asp-action="Firmar" method="post">
+                                <input type="hidden" name="id" value="@recibo.Id" />
+                                <button type="submit" class="btn btn-primary">Firmar Recibo</button>
+                            </form>
+                        }
+                        else if (recibo.Firmado)
+                        {
+                            <div class="d-flex w-100 flex-column">
+                                <span>Firmado</span>
+                                <button class="btn btn-outline-success" onclick="printThisRecibo('@recibo.Id')">Imprimir</button>
+                            </div>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="printable">
+    <h1>Detalles del recibo</h1>
+    <div>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                Fecha de cobro
+            </dt>
+            <dd class="col-sm-10" id="printable-fechacobro">
+                
+            </dd>
+            <dt class = "col-sm-2">
+             Sueldo bruto
+            </dt>
+            <dd class="col-sm-10" id="printable-sueldobruto">
+            </dd>
+            <dt class="col-sm-2">
+                Sueldo neto
+            </dt>
+            <dd class="col-sm-10" id="printable-sueldoneto">
+            </dd>
+            <dt class="col-sm-2">
+                DNI
+            </dt>
+            <dd class="col-sm-10" id="printable-dni">
+                
+            </dd>
+            <dt class="col-sm-2">
+                Nombre completo
+            </dt>
+            <dd class="col-sm-10" id="printable-nombrecompleto">
+                
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<script>
+    async function printThisRecibo(idRecibo)
+    {
+        try
+         {
+                const response = await fetch(`/ReciboSueldo/GetById?id=${idRecibo}`);
+                if (!response.ok) {
+                    throw new Error('Error de conexión con la base de datos.');
+                }
+                const data = await response.json();
+                console.log(data);
+                document.getElementById("printable-fechacobro").innerHTML = data.fechaCobro;
+                document.getElementById("printable-sueldobruto").innerHTML = data.sueldoBruto;
+                document.getElementById("printable-sueldoneto").innerHTML = data.sueldoNeto;
+                document.getElementById("printable-dni").innerHTML = data.usuarioDni;
+                document.getElementById("printable-nombrecompleto").innerHTML = data.nombreCompleto;
+                printPage();
+            }
+            catch (error) {
+                console.error('ERROR: ', error);
+            }
+    }
+</script>
 
 @if (User.IsInRole("Empleado")) 
 
 {
-    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-danger" mt-3">Volver atrás</a>
+    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-danger hide-print" mt-3">Volver atrás</a>
 }
 
 @if (User.IsInRole("Administrador")) 
 
 {
-    <a asp-action="Create" class="btn btn-outline-danger" mt-3">Volver atrás</a>
+    <a asp-action="Create" class="btn btn-outline-danger hide-print" mt-3">Volver atrás</a>
 }

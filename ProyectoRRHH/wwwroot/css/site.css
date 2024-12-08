@@ -49,12 +49,29 @@ header nav ul
     gap: 10px;
 }
 
+.printable {
+    display: none !important;
+}
+
 @media print {
-    * {
-        display: hidden !important
+    /* Media query para impresión */
+    
+    header ul
+    {
+        display: none !important;
     }
 
-        *.printable {
-            display: initial !important
-        }
+    .hide-print
+    {
+        display: none !important;
+    }
+
+    *.printable {
+        display: block !important;
+    }
+
+    footer
+    {
+        display: none !important;
+    }
 }

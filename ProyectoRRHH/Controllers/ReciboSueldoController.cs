@@ -253,5 +253,27 @@ public class ReciboSueldoController : Controller
     {
         return _context.ReciboSueldos.Any(e => e.Id == id);
     }
+
+    [HttpGet]
+    public IActionResult GetById(string id)
+    {
+        Guid idGuid = new Guid(id);
+        var obj = _context.ReciboSueldos
+       .Include(r => r.Usuario) // Eagerly load the Usuario navigation property
+       .FirstOrDefault(r => r.Id == idGuid);
+        if (obj == null)
+        {
+            return NotFound();
+        }
+        var result = new
+        {
+            obj.FechaCobro,
+            obj.SueldoNeto,
+            obj.SueldoBruto,
+            obj.UsuarioDni,
+            obj.Usuario.NombreCompleto
+        };
+        return Json(result); // Return the object as JSON
+    }
 }
 
