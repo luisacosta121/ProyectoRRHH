@@ -20,6 +20,14 @@
     </form>
 }
 
+@if (User.IsInRole("Empleado"))
+
+{
+    <div class="d-flex mt-3 gap-5">
+        <a class="btn btn-success w-50" asp-action="Create">Crear nueva solicitud de licencia</a>
+    </div>
+}
+
 <table class="table mt-3 table-striped table-hover w-100">
     <thead>
         <tr>

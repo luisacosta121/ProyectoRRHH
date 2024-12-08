@@ -85,4 +85,14 @@
     </tbody>
 </table>
 
-<a asp-controller="Home" asp-action="Index" class="btn btn-outline-danger mt-3">Volver atrás</a>
+@if (User.IsInRole("Empleado")) 
+
+{
+    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-danger" mt-3">Volver atrás</a>
+}
+
+@if (User.IsInRole("Administrador")) 
+
+{
+    <a asp-action="Create" class="btn btn-outline-danger" mt-3">Volver atrás</a>
+}
