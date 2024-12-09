@@ -10,10 +10,10 @@
     <div class="form-group">
         <input type="text" name="buscar" class="form-control" placeholder="Buscar por apellido o DNI" value="@ViewData["buscar"]" />
     </div>
-    <button type="submit" class="btn btn-primary w-100 mt-3 mb-5">Buscar</button>
+    <button type="submit" class="btn btn-primary w-100 mt-3 mb-2">Buscar</button>
 </form>
 
-<table class="table table-striped table-hover w-100">
+<table id="tablaUsuarios" class="table table-striped table-hover w-100">
     <thead>
         <tr>
             <th>
@@ -45,9 +45,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Correo)
-            </th>
-            <th hidden>
-                @Html.DisplayNameFor(model => model.Clave)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Roles)
@@ -81,16 +78,13 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Correo)
                 </td>
-                <td hidden>
-                    @Html.DisplayFor(modelItem => item.Clave)
-                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Roles)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Dni" class="btn btn-success">Editar</a>
-                    <a asp-action="Details" asp-route-id="@item.Nombre" class="btn btn-secondary">Detalles</a>
-                    <a asp-action="Delete" asp-route-id="@item.Nombre" class="btn btn-danger">Borrar</a>
+                    <a asp-action="Edit" asp-route-id="@item.Dni" class="btn btn-sm btn-success">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.Nombre" class="btn btn-sm btn-secondary">Detalles</a>
+                    <a asp-action="Delete" asp-route-id="@item.Nombre" class="btn btn-sm btn-danger">Borrar</a>
                 </td>
             </tr>
         }
@@ -101,3 +95,29 @@
     <a asp-action="Create" class="btn btn-outline-danger">Volver Atrás</a>
 </p>
 
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        let tabla = new DataTable("#tablaUsuarios", {
+            responsive: true,
+            ordering: false,
+            searching: false,
+            paging: false,
+            scrollCollapse: true,
+            scrollY: '50vh',
+            columnDefs: [
+                {targets: '_all', className: 'dt-head-center'},
+                {targets: '_all', className: 'dt-body-center'}
+            ],
+            layout: {
+                bottomStart: null
+            }
+
+        });
+    </script>
+}
