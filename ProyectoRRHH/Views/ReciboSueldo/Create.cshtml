@@ -14,7 +14,7 @@
 
             <!-- Selección de Usuario (DNI) -->
             <div class="form-group">
-                <label asp-for="UsuarioDni" class="control-label"></label>
+                <label asp-for="UsuarioDni" class="control-label">DNI</label>
                 <select asp-for="UsuarioDni" class="form-control" asp-items="ViewBag.UsuarioDni" id="usuarioDni"></select>
             </div>
 
@@ -26,14 +26,14 @@
 
             <!-- Fecha de Cobro -->
             <div class="form-group">
-                <label asp-for="FechaCobro" class="control-label"></label>
+                <label asp-for="FechaCobro" class="control-label">Fecha de Cobro</label>
                 <input asp-for="FechaCobro" class="form-control" />
                 <span asp-validation-for="FechaCobro" class="text-danger"></span>
             </div>
 
             <!-- Sueldo Bruto -->
             <div class="form-group">
-                <label asp-for="SueldoBruto" class="control-label"></label>
+                <label asp-for="SueldoBruto" class="control-label">Sueldo Bruto</label>
                 <input asp-for="SueldoBruto" class="form-control" />
                 <span asp-validation-for="SueldoBruto" class="text-danger"></span>
             </div>

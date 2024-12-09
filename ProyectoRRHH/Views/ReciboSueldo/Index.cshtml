@@ -23,21 +23,16 @@
         <thead>
             <tr>
                 <th>
-                    @if (User.IsInRole("Administrador")) // Solo el Administrador puede ordenar
-
-                    {
-                        <a asp-action="Index" asp-route-filtro="@ViewData["FiltroDni"]">
-                            @Html.DisplayNameFor(model => model.UsuarioDni)
-                        </a>
-                    }
-
-                    else
-
-                    {
-                        <span>@Html.DisplayNameFor(model => model.UsuarioDni)</span>
-                        // Empleado no puede ordenar
-
-                    }
+                @if (User.IsInRole("Administrador")) // Solo el Administrador puede ordenar por DNI
+                {
+                    <a asp-action="Index" asp-route-filtro="@ViewData["FiltroDni"]">
+                        DNI
+                    </a>
+                }
+                else
+                {
+                    <span>DNI</span>
+                }
                 </th>
                 <th>Fecha de Cobro</th>
                 <th>Sueldo Bruto</th>
@@ -46,10 +41,7 @@
                 <th>Descuento Ley 19032</th>
                 <th>Total Descuentos</th>
                 <th>Sueldo Neto</th>
-                @if (User.IsInRole("Empleado"))
-                {
-                    <th>Firma</th>
-                }
+                <th>Firma</th>
             </tr>
         </thead>
         <tbody>
@@ -67,23 +59,28 @@
                         @((recibo.Jubilacion + recibo.ObraSocial + recibo.Ley19032).ToString("C"))
                     </td>
                     <td>@recibo.SueldoNeto.ToString("C")</td>
-                    <td>
-                        @if (User.IsInRole("Empleado") && !recibo.Firmado)
-
-                        {
-                            <form asp-action="Firmar" method="post">
-                                <input type="hidden" name="id" value="@recibo.Id" />
-                                <button type="submit" class="btn btn-primary">Firmar Recibo</button>
-                            </form>
-                        }
-                        else if (recibo.Firmado)
-                        {
+                    @if (recibo.Firmado)
+                    {
+                        <td>
                             <div class="d-flex w-100 flex-column">
                                 <span>Firmado</span>
                                 <button class="btn btn-outline-success" onclick="printThisRecibo('@recibo.Id')">Imprimir</button>
                             </div>
-                        }
-                    </td>
+                        </td>
+                    }
+                    else if (!recibo.Firmado && User.IsInRole("Administrador"))
+                    {
+                        <td>No Firmado</td>
+                    }
+                    else
+                    {
+                        <td>
+                            <form asp-action="Firmar" method="post">
+                                <input type="hidden" name="id" value="@recibo.Id" />
+                                <button type="submit" class="btn btn-primary">Firmar Recibo</button>
+                            </form>
+                        </td>
+                    }
                 </tr>
             }
         </tbody>
